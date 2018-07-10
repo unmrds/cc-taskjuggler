@@ -1,3 +1,1 @@
-# ignore files created/managed by the workshop platform
-SHA1PasswordCalculator.ipynb
-setGitOptions.sh
+.ipynb_checkpoints

@@ -1,0 +1,5 @@
+project minimal "My minimal project" 2018-07-01 - 2019-06-30
+task "get something done"
+taskreport "reports/minimal_taskreport" {
+    formats html
+}
