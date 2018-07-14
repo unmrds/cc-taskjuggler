@@ -1,0 +1,142 @@
+project foundation "Foundation Project" 2018-07-01 - 2019-06-30 {
+    currency "USD"
+    timeformat "%Y-%m-%d"
+    numberformat "-" "" "," "." 1
+    currencyformat "(" ")" "," "." 0
+    now 2018-07-01-00:00
+    weekstartsmonday
+    workinghours mon - fri 9:00 - 12:00, 13:00 - 18:00
+    workinghours sat, sun off
+    
+    scenario duration_based "Duration Based Plan" {
+        scenario effort_based "Effort Based Plan"
+    }
+}
+
+############## accounts ################
+
+account cost "Project Cost" {
+  account personnel "Personnel"
+  account materials "Materials"
+}
+account rev "Payments"
+
+balance cost rev
+
+############## resources ###############
+resource boss "The Big Boss" {
+    efficiency .9
+    workinghours mon - fri 7:00 - 12:00, 13:00 - 18:00
+    workinghours sat, sun 10:00 - 15:00
+    rate 300
+}
+
+resource painter "The painter" {
+    rate 200
+    limits {dailymax 4h}
+}
+
+resource crew "The crew" {
+    rate 175
+    resource pj "PJ"
+    resource jb "JB"
+    resource ay "AY" {rate 250}
+}
+
+
+############## tasks ###################
+task projectstart "Project Start" {
+    start ${projectstart}
+}
+
+
+task complete "Complete Project"{
+task doing "Making the Goods" {
+    start ${projectstart}
+    task buy_materials "Buy the materials" {
+        duration_based:duration 1m
+        allocate ay
+        effort_based:limits {maximum 8h}
+        chargeset personnel
+    }
+    task glue_together "Glue everything together" {
+        depends !buy_materials # relative reference to task
+        duration_based:duration 8w
+        effort_based:effort 8w
+        allocate crew
+        chargeset personnel
+    }
+    task cleanup "Clean up the mess" {
+        depends complete.doing.glue_together # absolute reference to task
+        duration_based:duration 30d
+        effort_based:effort 30d
+        allocate crew
+        chargeset personnel
+    }
+}
+
+task refining "Refining the Goods" {
+    depends complete.doing
+    task paint "Paint the items" {
+        duration_based:duration 3w
+        effort_based:effort 3w
+        allocate painter
+        chargeset personnel
+    }
+    task attach_bells "Screw bells onto items" {
+        depends !paint
+        task buy_bells "Buy bells"{
+            duration 1w
+            chargeset materials
+            charge 2000 onstart
+        }
+        task use_screwdriver "Use screwdriver" {
+            depends !buy_bells
+            duration_based:duration 1m
+            effort_based:effort 1m
+            allocate crew
+            chargeset personnel
+        }
+    }
+    task repaint "Repaint the items" {
+        depends !attach_bells
+        duration_based:duration 2m
+        effort_based:effort 2m
+        allocate painter
+        chargeset personnel
+    }
+    task explain "Explain to Boss what you spent the last 3 months doing" {
+        depends !repaint
+        duration_based:duration 2h
+        effort_based:effort 2h
+        allocate ay
+        chargeset personnel
+    }
+}
+
+task selling "Selling the Goods" {
+    depends complete.refining.explain
+    duration_based:duration 4m
+    effort_based:effort 4m
+    allocate boss
+    chargeset personnel
+}
+
+task get_paid "Get paid for the goods" {
+    depends complete.selling
+    chargeset rev
+    charge 80000 onend
+}
+}
+
+############## reports #################
+
+taskreport "reports/foundation-04_taskreport" {
+    formats html, csv
+    columns bsi, name, start, end, effort, cost, revenue, chart
+    hideresource 0
+    scenarios duration_based, effort_based
+    headline "Project Breakdown"
+}
+
+

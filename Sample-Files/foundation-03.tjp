@@ -1,0 +1,72 @@
+project foundation "Foundation Project" 2018-07-01 - 2019-06-30 {
+    currency "USD"
+    timeformat "%Y-%m-%d"
+    numberformat "-" "" "," "." 1
+    currencyformat "(" ")" "," "." 0
+    now 2018-07-01-00:00
+    weekstartsmonday
+    workinghours mon - fri 9:00 - 12:00, 13:00 - 18:00
+    workinghours sat, sun off
+}
+
+############## accounts ################
+
+############## resources ###############
+
+############## tasks ###################
+task projectstart "Project Start" {
+    start ${projectstart}
+}
+
+
+task doing "Making the Goods" {
+    start ${projectstart}
+    task buy_materials "Buy the materials" {
+        duration 1m
+    }
+    task glue_together "Glue everything together" {
+        depends !buy_materials # relative reference to task
+        duration 8w
+    }
+    task cleanup "Clean up the mess" {
+        depends doing.glue_together # absolute reference to task
+        duration 30d
+    }
+}
+
+task refining "Refining the Goods" {
+    depends doing
+    task paint "Paint the items" {
+        duration 3w
+    }
+    task attach_bells "Screw bells onto items" {
+        depends !paint
+        task buy_bells "Buy bells"{duration 1w}
+        task use_screwdriver "Use screwdriver" {
+            depends !buy_bells
+            duration 1m
+        }
+    }
+    task repaint "Repaint the items" {
+        depends !attach_bells
+        duration 2m
+    }
+    task explain "Explain to Boss what you spent the last 3 months doing" {
+        depends !repaint
+        duration 2h
+    }
+}
+
+task selling "Selling the Goods" {
+    depends refining.explain
+    duration 4m
+}
+
+############## reports #################
+
+taskreport "reports/foundation-03_taskreport" {
+    formats html, csv
+    headline "Project Breakdown"
+}
+
+

@@ -1,0 +1,14 @@
+"BSI";"Name";"Start";"End";"Effort";
+1;"Project Start";"2018-07-01";"2018-07-01";0.0;
+2;"Making the Goods";"2018-07-01";"2018-10-25";0.0;
+2.1;"  Buy the materials";"2018-07-01";"2018-07-31";0.0;
+2.2;"  Glue everything together";"2018-07-31";"2018-09-25";0.0;
+2.3;"  Clean up the mess";"2018-09-25";"2018-10-25";0.0;
+3;"Refining the Goods";"2018-10-25";"2019-02-21";0.0;
+3.1;"  Paint the items";"2018-10-25";"2018-11-15";0.0;
+3.2;"  Screw bells onto items";"2018-11-15";"2018-12-22";0.0;
+"3.2.1";"    Buy bells";"2018-11-15";"2018-11-22";0.0;
+"3.2.2";"    Use screwdriver";"2018-11-22";"2018-12-22";0.0;
+3.3;"  Repaint the items";"2018-12-22";"2019-02-21";0.0;
+3.4;"  Explain to Boss what you spent the last 3 months doing";"2019-02-21";"2019-02-21";0.0;
+4;"Selling the Goods";"2019-02-21";"2019-06-23";0.0;

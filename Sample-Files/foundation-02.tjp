@@ -1,0 +1,44 @@
+project foundation "Foundation Project" 2018-07-01 - 2019-06-30 {
+    currency "USD"
+    timeformat "%Y-%m-%d"
+    numberformat "-" "" "," "." 1
+    currencyformat "(" ")" "," "." 0
+    now 2018-07-01-00:00
+    weekstartsmonday
+    workinghours mon - fri 9:00 - 12:00, 13:00 - 18:00
+    workinghours sat, sun off
+}
+
+############## accounts ################
+
+############## resources ###############
+
+############## tasks ###################
+task projectstart "Project Start" {
+    start ${projectstart}
+}
+
+
+task doing "Making the Goods" {
+    start 2018-09-01
+    duration 4m
+}
+
+task refining "Refining the Goods" {
+    start 2019-01-01
+    duration 4m
+}
+
+task selling "Selling the Goods" {
+    end 2019-06-30
+    duration 4m
+}
+
+############## reports #################
+
+taskreport "reports/foundation-02_taskreport" {
+    formats html, csv
+    headline "Project Breakdown"
+}
+
+
